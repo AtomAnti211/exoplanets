@@ -1,5 +1,6 @@
 package com.benyei.exoplanets.service.Impl;
 
+import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Star;
 import com.benyei.exoplanets.repository.StarRepository;
 import org.springframework.stereotype.Service;
