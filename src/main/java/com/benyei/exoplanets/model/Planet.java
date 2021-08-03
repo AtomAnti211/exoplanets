@@ -1,5 +1,6 @@
 package com.benyei.exoplanets.model;
 
+import com.benyei.exoplanets.annotation.ValidMaxYearValue;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -21,8 +22,8 @@ public class Planet {
     private String name;
 
     @Column(name = "YEAR_OF_DISCOVERY")
-    @Min(value = 1988, message = "They founded the first exoplanet in 1988 (1995:confirmed), please give me a real year!")
-
+    @Min(value = 1988, message = "The first exoplanet was discovered in 1995 (confirmed), please give me a real year!")
+    @ValidMaxYearValue
     private Integer yearOfDiscovery;
 
     @Enumerated(EnumType.STRING)
