@@ -1,5 +1,7 @@
 package com.benyei.exoplanets.model;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -13,6 +15,7 @@ public class Moon {
 
     @Column(name = "name", unique = true, nullable = false)
     @Size(min = 2, message = "The moon name cannot be shorter than two character!")
+    @UniqueElements(message = "This moon is already in the database.")
     private String name;
 
     @ManyToOne

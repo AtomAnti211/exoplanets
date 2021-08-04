@@ -37,6 +37,9 @@ public class Star {
     @JsonIgnore
     private List<Planet> planets;
 
+    public Star() {
+    }
+
     public Long getId() {
         return id;
     }

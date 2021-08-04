@@ -2,6 +2,7 @@ package com.benyei.exoplanets.model;
 
 import com.benyei.exoplanets.annotation.ValidMaxYearValue;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -18,7 +19,8 @@ public class Planet {
     private Long id;
 
     @Column(name = "name", unique = true, nullable = false)
-    @Size(min = 2, message = "The star name cannot be shorter than two character!")
+    @Size(min = 2, message = "The planet name cannot be shorter than two character!")
+    @UniqueElements(message = "This planet is already in the database." )
     private String name;
 
     @Column(name = "YEAR_OF_DISCOVERY")
