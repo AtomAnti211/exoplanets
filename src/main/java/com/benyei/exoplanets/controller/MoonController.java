@@ -44,6 +44,6 @@ public class MoonController {
 
         moonService.deleteMoon(id);
 
-        return new ResponseEntity<>("Moon deleted successfully!.", HttpStatus.OK);
+        return new ResponseEntity<>("Moon deleted successfully!.", HttpStatus.NO_CONTENT);
     }
 }

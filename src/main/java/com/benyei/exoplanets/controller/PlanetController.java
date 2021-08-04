@@ -43,6 +43,6 @@ public class PlanetController {
     @DeleteMapping("{id}")
     public ResponseEntity<String> deletePlanet(@PathVariable("id") long id){
         planetService.deletePlanet(id);
-        return new ResponseEntity<>("Planet deleted successfully!.", HttpStatus.OK);
+        return new ResponseEntity<>("Planet deleted successfully!.", HttpStatus.NO_CONTENT);
     }
 }
