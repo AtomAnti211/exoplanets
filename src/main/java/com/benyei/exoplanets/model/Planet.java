@@ -22,7 +22,7 @@ public class Planet {
     private String name;
 
     @Column(name = "YEAR_OF_DISCOVERY")
-    @Min(value = 1988, message = "The first exoplanet was discovered in 1995 (confirmed), please give me a real year!")
+    @Min(value = 1995, message = "The first exoplanet was discovered in 1995 (confirmed), please give me a real year!")
     @ValidMaxYearValue
     private Integer yearOfDiscovery;
 

@@ -1,5 +1,6 @@
 package com.benyei.exoplanets.service.Impl;
 
+import com.benyei.exoplanets.exception.NotUniqueException;
 import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Moon;
 import com.benyei.exoplanets.repository.MoonRepository;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,6 +24,10 @@ public class MoonServiceImpl implements MoonService {
 
     @Override
     public Moon saveMoon(Moon moon) {
+        Optional<Moon> existingMoon = moonRepository.findMoonByName(moon.getName());
+        if (existingMoon.isPresent()) {
+            throw  new NotUniqueException("Moon already exists with this name: " + moon.getName());
+        }
         return moonRepository.save(moon);
     }
 
@@ -34,11 +40,16 @@ public class MoonServiceImpl implements MoonService {
     public Moon getMoonById(long id) {
         return moonRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Moon", "Id", id));
-
     }
 
     @Override
     public Moon updateMoon(Moon moon, long id) {
+
+        Optional<Moon> optionalMoon = moonRepository.findMoonByName(moon.getName());
+        if (optionalMoon.isPresent()) {
+            throw new NotUniqueException("Moon already exists with this name: " + moon.getName());
+        }
+
         Moon existingMoon = moonRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Moon", "Id", id));
 
