@@ -1,5 +1,6 @@
 package com.benyei.exoplanets.service.Impl;
 
+import com.benyei.exoplanets.exception.NotUniqueException;
 import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Star;
 import com.benyei.exoplanets.repository.StarRepository;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -21,6 +23,10 @@ public class StarServiceImpl implements StarService {
 
     @Override
     public Star saveStar(Star star) {
+        Optional<Star> existingStar = starRepository.findStarByName(star.getName());
+        if (existingStar.isPresent()) {
+            throw  new NotUniqueException("Star already exists with this name: " + star.getName());
+        }
         return starRepository.save(star);
     }
 
@@ -37,6 +43,12 @@ public class StarServiceImpl implements StarService {
 
     @Override
     public Star updateStar(Star star, long id) {
+        Optional<Star> optionalStar = starRepository.findStarByName(star.getName());
+        if (optionalStar.isPresent() && optionalStar.get().getId() != id) {
+            throw  new NotUniqueException(
+                    "A star with this name already exists under this name " + star.getName() +
+                            " and not this identifier: " + id);
+        }
         Star existingStar = starRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Star", "Id", id));
         existingStar.setName(star.getName());
