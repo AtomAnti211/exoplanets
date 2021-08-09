@@ -1,5 +1,6 @@
 package com.benyei.exoplanets.service.Impl;
 
+import com.benyei.exoplanets.exception.NotUniqueException;
 import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Planet;
 import com.benyei.exoplanets.repository.PlanetRepository;
@@ -8,13 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class PlanetServiceImpl implements PlanetService {
 
 
-    private PlanetRepository planetRepository;
+    private final PlanetRepository planetRepository;
 
     public PlanetServiceImpl(PlanetRepository planetRepository) {
         this.planetRepository = planetRepository;
@@ -22,6 +24,10 @@ public class PlanetServiceImpl implements PlanetService {
 
     @Override
     public Planet savePlanet(Planet planet) {
+        Optional<Planet> existingPlanet = planetRepository.findPlanetByName(planet.getName());
+        if (existingPlanet.isPresent()) {
+            throw  new NotUniqueException("Planet already exists with this name: " + planet.getName());
+        }
         return planetRepository.save(planet);
     }
 
@@ -39,6 +45,13 @@ public class PlanetServiceImpl implements PlanetService {
 
     @Override
     public Planet updatePlanet(Planet planet, long id) {
+
+        Optional<Planet> optionalPlanet = planetRepository.findPlanetByName(planet.getName());
+        if (optionalPlanet.isPresent() && optionalPlanet.get().getId() != id) {
+            throw  new NotUniqueException(
+                    "A planet with this name already exists under this name: " + planet.getName() +
+                            " and not this identifier: " + id);
+        }
 
         Planet existingPlanet = planetRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Planet", "Id", id));
