@@ -33,13 +33,16 @@ public class PlanetServiceImpl implements PlanetService {
 
     @Override
     public List<Planet> getAllPlanets() {
+        if (planetRepository.findAll().isEmpty()) {
+            throw new ResourceNotFoundException("Not Found!");
+        }
         return planetRepository.findAll();
     }
 
     @Override
     public Planet getPlanetById(long id) {
         return planetRepository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("Planet", "Id", id));
+                new ResourceNotFoundException("Planet not found with id: " + id));
 
     }
 
@@ -54,7 +57,7 @@ public class PlanetServiceImpl implements PlanetService {
         }
 
         Planet existingPlanet = planetRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Planet", "Id", id));
+                () -> new ResourceNotFoundException("Planet not found with id: " + id));
 
         existingPlanet.setName(planet.getName());
         existingPlanet.setYearOfDiscovery(planet.getYearOfDiscovery());
@@ -68,7 +71,7 @@ public class PlanetServiceImpl implements PlanetService {
     @Override
     public void deletePlanet(long id) {
         planetRepository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("Planet", "Id", id));
+                new ResourceNotFoundException("Planet not found with id: " + id));
         planetRepository.deleteById(id);
     }
 }

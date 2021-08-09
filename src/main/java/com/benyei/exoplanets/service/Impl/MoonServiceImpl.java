@@ -33,13 +33,16 @@ public class MoonServiceImpl implements MoonService {
 
     @Override
     public List<Moon> getAllMoons() {
+        if (moonRepository.findAll().isEmpty()) {
+            throw new ResourceNotFoundException("Not Found!");
+        }
         return moonRepository.findAll();
     }
 
     @Override
     public Moon getMoonById(long id) {
         return moonRepository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("Moon", "Id", id));
+                new ResourceNotFoundException("Moon not found with id: " + id));
     }
 
     @Override
@@ -51,7 +54,7 @@ public class MoonServiceImpl implements MoonService {
         }
 
         Moon existingMoon = moonRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Moon", "Id", id));
+                () -> new ResourceNotFoundException("Moon not found with id: " + id));
 
         existingMoon.setName(moon.getName());
         existingMoon.setPlanet(moon.getPlanet());
@@ -63,7 +66,7 @@ public class MoonServiceImpl implements MoonService {
     @Override
     public void deleteMoon(long id) {
         moonRepository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("Moon", "Id", id));
+                new ResourceNotFoundException("Moon not found with id: " + id));
         moonRepository.deleteById(id);
     }
 }

@@ -32,13 +32,16 @@ public class StarServiceImpl implements StarService {
 
     @Override
     public List<Star> getAllStars() {
+        if (starRepository.findAll().isEmpty()) {
+            throw new ResourceNotFoundException("Not Found!");
+        }
         return starRepository.findAll();
     }
 
     @Override
     public Star getStarById(long id) {
         return starRepository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("Star", "Id", id));
+                new ResourceNotFoundException("Star not found with id: " + id));
     }
 
     @Override
@@ -50,7 +53,7 @@ public class StarServiceImpl implements StarService {
                             " and not this identifier: " + id);
         }
         Star existingStar = starRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Star", "Id", id));
+                () -> new ResourceNotFoundException("Star not found with id: " + id));
         existingStar.setName(star.getName());
         existingStar.setMassSun(star.getMassSun());
         existingStar.setRadiusSun(star.getRadiusSun());
@@ -63,7 +66,7 @@ public class StarServiceImpl implements StarService {
     @Override
     public void deleteStar(long id) {
         starRepository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("Star", "Id", id));
+                new ResourceNotFoundException("Star not found with id: " + id));
         starRepository.deleteById(id);
     }
 }
