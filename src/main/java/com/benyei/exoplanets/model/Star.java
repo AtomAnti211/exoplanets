@@ -1,6 +1,5 @@
 package com.benyei.exoplanets.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;

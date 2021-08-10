@@ -1,7 +1,5 @@
 package com.benyei.exoplanets.model;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
