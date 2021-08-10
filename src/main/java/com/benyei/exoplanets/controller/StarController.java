@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/stars")
@@ -27,7 +26,6 @@ public class StarController {
         } catch (NotUniqueException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @GetMapping
@@ -40,9 +38,9 @@ public class StarController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getStarById(@PathVariable("id") Long starId) {
+    public ResponseEntity<?> getStarById(@PathVariable("id") Long id) {
         try {
-            return new ResponseEntity<>(starService.getStarById(starId), HttpStatus.OK);
+            return new ResponseEntity<>(starService.getStarById(id), HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
@@ -50,7 +48,7 @@ public class StarController {
 
     @PutMapping("{id}")
     public ResponseEntity<?> updateStar(@PathVariable("id") Long id,
-                                           @Valid @RequestBody Star star) {
+                                        @Valid @RequestBody Star star) {
         try {
             return new ResponseEntity<>(starService.updateStar(star, id), HttpStatus.OK);
         } catch (NotUniqueException e) {
@@ -64,7 +62,7 @@ public class StarController {
     public ResponseEntity<?> deleteStar(@PathVariable("id") Long id) {
         try {
             starService.deleteStar(id);
-            return new ResponseEntity<>("Star deleted successfully!.", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (ConstraintException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (ResourceNotFoundException e) {

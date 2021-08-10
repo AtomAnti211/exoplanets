@@ -31,9 +31,9 @@ public class PlanetServiceImpl implements PlanetService {
         if (existingPlanet.isPresent()) {
             throw new NotUniqueException("Planet already exists with this name: " + planet.getName());
         }
-        if (starRepository.findById(planet.getStar().getId()).isEmpty()) {
-            throw new ConstraintException("With this ID: "
-                    + planet.getStar().getId() + " there is no star.");
+        if (planet.getStar().getId() == null
+                || starRepository.findById(planet.getStar().getId()).isEmpty()) {
+            throw new ConstraintException("Star does not exist with this id, give me a real id");
         }
         return planetRepository.save(planet);
     }
@@ -65,6 +65,11 @@ public class PlanetServiceImpl implements PlanetService {
 
         Planet existingPlanet = planetRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Planet not found with id: " + id));
+
+        if (planet.getStar().getId() == null
+                || starRepository.findById(planet.getStar().getId()).isEmpty()) {
+            throw new ConstraintException("Star does not exist with this id, give me a real id");
+        }
 
         existingPlanet.setName(planet.getName());
         existingPlanet.setYearOfDiscovery(planet.getYearOfDiscovery());
