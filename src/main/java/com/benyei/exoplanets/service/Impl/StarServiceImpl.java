@@ -6,6 +6,7 @@ import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Star;
 import com.benyei.exoplanets.repository.StarRepository;
 import com.benyei.exoplanets.service.StarService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,11 +17,8 @@ import java.util.Optional;
 @Transactional
 public class StarServiceImpl implements StarService {
 
-    private final StarRepository starRepository;
-
-    public StarServiceImpl(StarRepository starRepository) {
-        this.starRepository = starRepository;
-    }
+    @Autowired
+    private StarRepository starRepository;
 
     @Override
     public Star saveStar(Star star) {
@@ -65,15 +63,14 @@ public class StarServiceImpl implements StarService {
     }
 
     @Override
-    public void deleteStar(long id) {
-        starRepository.findById(id).orElseThrow(() ->
+    public void deleteStar(long id) throws ConstraintException, ResourceNotFoundException{
+        Star existingStar = starRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Star not found with id: " + id));
 
-        if (starRepository.findById(id).get().getPlanets().equals(null) ||
-                starRepository.findById(id).get().getPlanets().size() < 1) {
-            starRepository.deleteById(id);
+        if (existingStar.getPlanets().size() > 0) {
+            throw new ConstraintException("This star (id: "
+                    + id + ") has a planet(s), so it cannot be deleted!");
         }
-        throw new ConstraintException("This star (id: "
-                + id + ") has a planet(s), so it cannot be deleted!");
+        starRepository.deleteById(id);
     }
 }

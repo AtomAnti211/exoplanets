@@ -1,7 +1,9 @@
 package com.benyei.exoplanets.controller;
 
+import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Star;
 import com.benyei.exoplanets.service.StarService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +15,8 @@ import java.util.List;
 @RequestMapping("/api/stars")
 public class StarController {
 
-    private final StarService starService;
-    public StarController(StarService starService) {
-        this.starService = starService;
-    }
+    @Autowired
+    private StarService starService;
 
     @PostMapping()
     public ResponseEntity<Star> saveStar(@Valid @RequestBody Star star){
@@ -29,8 +29,12 @@ public class StarController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Star> getStarById(@PathVariable("id") Long starId){
-        return new ResponseEntity<>(starService.getStarById(starId), HttpStatus.OK);
+    public ResponseEntity<?> getStarById(@PathVariable("id") Long starId){
+        try{
+            return new ResponseEntity<>(starService.getStarById(starId), HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("{id}")
@@ -40,8 +44,8 @@ public class StarController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteStar(@PathVariable("id") Long id){
-        starService.deleteStar(id);
+    public ResponseEntity<Void> deleteStar(@PathVariable("id") Long id) {
+            starService.deleteStar(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

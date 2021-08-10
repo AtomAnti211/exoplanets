@@ -26,7 +26,7 @@ public class MoonServiceImpl implements MoonService {
     public Moon saveMoon(Moon moon) {
         Optional<Moon> existingMoon = moonRepository.findMoonByName(moon.getName());
         if (existingMoon.isPresent()) {
-            throw  new NotUniqueException("Moon already exists with this name: " + moon.getName());
+            throw new NotUniqueException("Moon already exists with this name: " + moon.getName());
         }
         return moonRepository.save(moon);
     }

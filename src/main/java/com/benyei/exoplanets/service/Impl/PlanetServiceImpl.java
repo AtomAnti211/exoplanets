@@ -1,10 +1,13 @@
 package com.benyei.exoplanets.service.Impl;
 
+import com.benyei.exoplanets.exception.ConstraintException;
 import com.benyei.exoplanets.exception.NotUniqueException;
 import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Planet;
 import com.benyei.exoplanets.repository.PlanetRepository;
+import com.benyei.exoplanets.repository.StarRepository;
 import com.benyei.exoplanets.service.PlanetService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,18 +18,22 @@ import java.util.Optional;
 @Transactional
 public class PlanetServiceImpl implements PlanetService {
 
+    @Autowired
+    private PlanetRepository planetRepository;
 
-    private final PlanetRepository planetRepository;
+    @Autowired
+    private StarRepository starRepository;
 
-    public PlanetServiceImpl(PlanetRepository planetRepository) {
-        this.planetRepository = planetRepository;
-    }
 
     @Override
     public Planet savePlanet(Planet planet) {
         Optional<Planet> existingPlanet = planetRepository.findPlanetByName(planet.getName());
         if (existingPlanet.isPresent()) {
-            throw  new NotUniqueException("Planet already exists with this name: " + planet.getName());
+            throw new NotUniqueException("Planet already exists with this name: " + planet.getName());
+        }
+        if (starRepository.findById(planet.getStar().getId()).isEmpty()) {
+            throw new ConstraintException("With this ID: "
+                    + planet.getStar().getId() + " there is no star.");
         }
         return planetRepository.save(planet);
     }
@@ -51,7 +58,7 @@ public class PlanetServiceImpl implements PlanetService {
 
         Optional<Planet> optionalPlanet = planetRepository.findPlanetByName(planet.getName());
         if (optionalPlanet.isPresent() && optionalPlanet.get().getId() != id) {
-            throw  new NotUniqueException(
+            throw new NotUniqueException(
                     "A planet with this name already exists under this name: " + planet.getName() +
                             " and not this identifier: " + id);
         }

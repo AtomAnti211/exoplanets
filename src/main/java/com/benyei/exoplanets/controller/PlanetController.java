@@ -2,6 +2,7 @@ package com.benyei.exoplanets.controller;
 
 import com.benyei.exoplanets.model.Planet;
 import com.benyei.exoplanets.service.PlanetService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +14,8 @@ import java.util.List;
 @RequestMapping("/api/planets")
 public class PlanetController {
 
-    private final PlanetService planetService;
-
-    public PlanetController(PlanetService planetService) {
-        this.planetService = planetService;
-    }
+    @Autowired
+    private PlanetService planetService;
 
     @PostMapping()
     public ResponseEntity<Planet> savePlanet(@Valid @RequestBody Planet planet){
