@@ -40,8 +40,8 @@ public class StarController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteStar(@PathVariable("id") Long id){
+    public ResponseEntity<Void> deleteStar(@PathVariable("id") Long id){
         starService.deleteStar(id);
-        return new ResponseEntity<>("Star deleted successfully!.", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

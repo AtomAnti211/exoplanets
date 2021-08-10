@@ -1,5 +1,6 @@
 package com.benyei.exoplanets.service.Impl;
 
+import com.benyei.exoplanets.exception.ConstraintException;
 import com.benyei.exoplanets.exception.NotUniqueException;
 import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Star;
@@ -25,7 +26,7 @@ public class StarServiceImpl implements StarService {
     public Star saveStar(Star star) {
         Optional<Star> existingStar = starRepository.findStarByName(star.getName());
         if (existingStar.isPresent()) {
-            throw  new NotUniqueException("Star already exists with this name: " + star.getName());
+            throw new NotUniqueException("Star already exists with this name: " + star.getName());
         }
         return starRepository.save(star);
     }
@@ -48,7 +49,7 @@ public class StarServiceImpl implements StarService {
     public Star updateStar(Star star, long id) {
         Optional<Star> optionalStar = starRepository.findStarByName(star.getName());
         if (optionalStar.isPresent() && optionalStar.get().getId() != id) {
-            throw  new NotUniqueException(
+            throw new NotUniqueException(
                     "A star with this name already exists under this name " + star.getName() +
                             " and not this identifier: " + id);
         }
@@ -67,6 +68,12 @@ public class StarServiceImpl implements StarService {
     public void deleteStar(long id) {
         starRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Star not found with id: " + id));
-        starRepository.deleteById(id);
+
+        if (starRepository.findById(id).get().getPlanets().equals(null) ||
+                starRepository.findById(id).get().getPlanets().size() < 1) {
+            starRepository.deleteById(id);
+        }
+        throw new ConstraintException("This star (id: "
+                + id + ") has a planet(s), so it cannot be deleted!");
     }
 }

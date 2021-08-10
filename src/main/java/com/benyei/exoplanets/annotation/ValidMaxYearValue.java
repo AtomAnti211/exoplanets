@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Constraint(validatedBy = ValidMaxYearValueValidator.class)
 public @interface ValidMaxYearValue {
-    String message() default "This did not happen in the future!";
+    String message() default "Do you know the future?";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default { };
 }

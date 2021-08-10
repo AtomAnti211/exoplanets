@@ -17,11 +17,12 @@ public class Moon {
     @Size(min = 2, message = "The moon name cannot be shorter than two character!")
     private String name;
 
+    @Column(name = "confirmed")
+    private Boolean status;
+
     @ManyToOne
     private Planet planet;
 
-    @Column(name = "confirmed")
-    private Boolean status;
 
     public Long getId() {
         return id;

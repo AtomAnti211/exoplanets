@@ -35,12 +35,12 @@ public class Planet {
     @ManyToOne
     private Star star;
 
+    @Column(name = "Habitable_Zone")
+    private Boolean isInTheHabitableZone;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true, mappedBy = "planet")
     private List<Moon> moons;
-
-    @Column(name = "Habitable_Zone")
-    private Boolean isInTheHabitableZone;
 
     public Planet() {
     }
