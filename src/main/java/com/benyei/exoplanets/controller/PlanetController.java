@@ -63,8 +63,6 @@ public class PlanetController {
         try {
             planetService.deletePlanet(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (ConstraintException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

@@ -11,5 +11,4 @@ public interface PlanetService {
     Planet getPlanetById(long id);
     Planet updatePlanet(Planet employee, long id);
     void deletePlanet(long id);
-   // List<Planet> findAllByIsInTheHabitableZoneTrue();
 }

@@ -32,11 +32,11 @@ public class Planet {
     @Column(name = "confirmed")
     private Boolean statusIsConfirmed;
 
-    @ManyToOne
-    private Star star;
-
     @Column(name = "Habitable_Zone")
     private Boolean isInTheHabitableZone;
+
+    @ManyToOne
+    private Star star;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true, mappedBy = "planet")

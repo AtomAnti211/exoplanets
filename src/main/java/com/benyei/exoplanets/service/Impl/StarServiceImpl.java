@@ -63,7 +63,7 @@ public class StarServiceImpl implements StarService {
     }
 
     @Override
-    public void deleteStar(long id) throws ConstraintException, ResourceNotFoundException{
+    public void deleteStar(long id) throws ConstraintException, ResourceNotFoundException {
         Star existingStar = starRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("With this ID: " + id + ", star does not exist."));
 
