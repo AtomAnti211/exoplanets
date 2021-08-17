@@ -20,7 +20,7 @@ public class MoonController {
     private MoonService moonService;
 
     @PostMapping()
-    public ResponseEntity<?> saveMoon(@Valid @RequestBody Moon moon){
+    public ResponseEntity<?> saveMoon(@Valid @RequestBody Moon moon) {
         try {
             return new ResponseEntity<>(moonService.saveMoon(moon), HttpStatus.CREATED);
         } catch (NotUniqueException | ConstraintException e) {
@@ -29,7 +29,7 @@ public class MoonController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllMoons(){
+    public ResponseEntity<?> getAllMoons() {
         try {
             return new ResponseEntity<>(moonService.getAllMoons(), HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
@@ -38,7 +38,7 @@ public class MoonController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getMoonById(@PathVariable("id") long moonId){
+    public ResponseEntity<?> getMoonById(@PathVariable("id") long moonId) {
         try {
             return new ResponseEntity<>(moonService.getMoonById(moonId), HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
@@ -48,7 +48,7 @@ public class MoonController {
 
     @PutMapping("{id}")
     public ResponseEntity<?> updateMoon(@PathVariable("id") long id,
-                                          @Valid @RequestBody Moon moon){
+                                        @Valid @RequestBody Moon moon) {
         try {
             return new ResponseEntity<>(moonService.updateMoon(moon, id), HttpStatus.OK);
         } catch (NotUniqueException e) {
@@ -59,7 +59,7 @@ public class MoonController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteMoon(@PathVariable("id") long id){
+    public ResponseEntity<?> deleteMoon(@PathVariable("id") long id) {
         try {
             moonService.deleteMoon(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

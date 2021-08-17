@@ -4,7 +4,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Calendar;
 
-public class ValidMaxYearValueValidator implements ConstraintValidator<ValidMaxYearValue,Integer> {
+public class ValidMaxYearValueValidator implements ConstraintValidator<ValidMaxYearValue, Integer> {
     @Override
     public void initialize(ValidMaxYearValue constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);

@@ -13,6 +13,8 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = ValidMaxYearValueValidator.class)
 public @interface ValidMaxYearValue {
     String message() default "Do you know the future? Give me a real year!";
+
     Class<?>[] groups() default {};
-    Class<? extends Payload>[] payload() default { };
+
+    Class<? extends Payload>[] payload() default {};
 }
