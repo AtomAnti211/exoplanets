@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface StarService {
 
-    Star saveStar(Star employee);
+    Star saveStar(Star star);
     List<Star> getAllStars();
     Star getStarById(long id);
-    Star updateStar(Star employee, long id);
+    Star updateStar(Star star, long id);
     void deleteStar(long id);
 }

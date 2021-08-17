@@ -19,14 +19,14 @@ public class Star {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @Positive
+    @Positive(message = "The temperature can't be negative or zero!")
     @Column(name = "temperature_in_Kelvin")
     private Integer temperature;
 
-    @Positive(message = "The temperature(K) can never be negative or exactly zero!")
+    @Positive(message = "The distance can't be negative or zero!")
     private Double distanceInLightYears;
 
-    @Positive(message = "The period can't be negative or zero!")
+    @Positive(message = "The radius can't be negative or zero!")
     private Double radiusSun;
 
     @Positive(message = "The mass of all stars is always positive!")

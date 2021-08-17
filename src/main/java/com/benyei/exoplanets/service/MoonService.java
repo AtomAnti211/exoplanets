@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface MoonService {
 
-    Moon saveMoon(Moon employee);
+    Moon saveMoon(Moon moon);
     List<Moon> getAllMoons();
     Moon getMoonById(long id);
-    Moon updateMoon(Moon employee, long id);
+    Moon updateMoon(Moon moon, long id);
     void deleteMoon(long id);
 }
