@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/stars")
@@ -67,5 +68,16 @@ public class StarController {
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("distance")
+    public List<Star> findAllByDistanceInLightYearsIsLessThan(@RequestParam Double distance) {
+        return starService.findAllByDistanceInLightYearsIsLessThan(distance);
+    }
+
+    @GetMapping("search")
+    public List<Star> findAllByNameContaining(@RequestParam Optional<String> name) {
+        if (name.isEmpty()) return starService.getAllStars();
+        return starService.findAllByNameContaining(name);
     }
 }

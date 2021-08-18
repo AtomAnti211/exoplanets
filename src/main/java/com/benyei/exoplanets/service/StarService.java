@@ -66,4 +66,12 @@ public class StarService {
         }
         starRepository.deleteById(id);
     }
+
+    public List<Star> findAllByDistanceInLightYearsIsLessThan(Double distance) {
+        return starRepository.findAllByDistanceInLightYearsIsLessThan(distance);
+    }
+
+    public List<Star> findAllByNameContaining(Optional<String> name) {
+        return starRepository.findAllByNameContaining(name);
+    }
 }
