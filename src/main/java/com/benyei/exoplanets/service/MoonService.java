@@ -6,7 +6,6 @@ import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Moon;
 import com.benyei.exoplanets.repository.MoonRepository;
 import com.benyei.exoplanets.repository.PlanetRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +16,14 @@ import java.util.Optional;
 @Transactional
 public class MoonService {
 
-    @Autowired
-    private MoonRepository moonRepository;
+    private final MoonRepository moonRepository;
 
-    @Autowired
-    private PlanetRepository planetRepository;
+    private final PlanetRepository planetRepository;
+
+    public MoonService(MoonRepository moonRepository, PlanetRepository planetRepository) {
+        this.moonRepository = moonRepository;
+        this.planetRepository = planetRepository;
+    }
 
     public Moon saveMoon(Moon moon) {
         Optional<Moon> existingMoon = moonRepository.findMoonByName(moon.getName());
@@ -36,9 +38,6 @@ public class MoonService {
     }
 
     public List<Moon> getAllMoons() {
-        if (moonRepository.findAll().isEmpty()) {
-            throw new ResourceNotFoundException("Not Found!");
-        }
         return moonRepository.findAll();
     }
 

@@ -5,19 +5,22 @@ import com.benyei.exoplanets.exception.NotUniqueException;
 import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Moon;
 import com.benyei.exoplanets.service.MoonService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/moons")
 public class MoonController {
 
-    @Autowired
-    private MoonService moonService;
+    private final MoonService moonService;
+
+    public MoonController(MoonService moonService) {
+        this.moonService = moonService;
+    }
 
     @PostMapping()
     public ResponseEntity<?> saveMoon(@Valid @RequestBody Moon moon) {
@@ -29,12 +32,8 @@ public class MoonController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllMoons() {
-        try {
-            return new ResponseEntity<>(moonService.getAllMoons(), HttpStatus.OK);
-        } catch (ResourceNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    public List<Moon> getAllMoons() {
+            return moonService.getAllMoons();
     }
 
     @GetMapping("{id}")

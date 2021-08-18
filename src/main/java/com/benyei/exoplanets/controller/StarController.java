@@ -5,19 +5,22 @@ import com.benyei.exoplanets.exception.NotUniqueException;
 import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Star;
 import com.benyei.exoplanets.service.StarService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/stars")
 public class StarController {
 
-    @Autowired
-    private StarService starService;
+    private final StarService starService;
+
+    public StarController(StarService starService) {
+        this.starService = starService;
+    }
 
     @PostMapping()
     public ResponseEntity<?> saveStar(@Valid @RequestBody Star star) {
@@ -29,12 +32,8 @@ public class StarController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllStars() {
-        try {
-            return new ResponseEntity<>(starService.getAllStars(), HttpStatus.OK);
-        } catch (ResourceNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    public List<Star> getAllStars() {
+            return starService.getAllStars();
     }
 
     @GetMapping("{id}")

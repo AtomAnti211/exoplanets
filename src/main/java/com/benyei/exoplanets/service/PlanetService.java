@@ -6,7 +6,6 @@ import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Planet;
 import com.benyei.exoplanets.repository.PlanetRepository;
 import com.benyei.exoplanets.repository.StarRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +16,14 @@ import java.util.Optional;
 @Transactional
 public class PlanetService {
 
-    @Autowired
-    private PlanetRepository planetRepository;
+    private final PlanetRepository planetRepository;
 
-    @Autowired
-    private StarRepository starRepository;
+    private final StarRepository starRepository;
+
+    public PlanetService(PlanetRepository planetRepository, StarRepository starRepository) {
+        this.planetRepository = planetRepository;
+        this.starRepository = starRepository;
+    }
 
     public Planet savePlanet(Planet planet) {
         Optional<Planet> existingPlanet = planetRepository.findPlanetByName(planet.getName());
@@ -36,9 +38,6 @@ public class PlanetService {
     }
 
     public List<Planet> getAllPlanets() {
-        if (planetRepository.findAll().isEmpty()) {
-            throw new ResourceNotFoundException("Not Found!");
-        }
         return planetRepository.findAll();
     }
 

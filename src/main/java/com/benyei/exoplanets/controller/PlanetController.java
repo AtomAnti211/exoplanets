@@ -5,19 +5,22 @@ import com.benyei.exoplanets.exception.NotUniqueException;
 import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Planet;
 import com.benyei.exoplanets.service.PlanetService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/planets")
 public class PlanetController {
 
-    @Autowired
-    private PlanetService planetService;
+    private final PlanetService planetService;
+
+    public PlanetController(PlanetService planetService) {
+        this.planetService = planetService;
+    }
 
     @PostMapping
     public ResponseEntity<?> savePlanet(@Valid @RequestBody Planet planet) {
@@ -29,12 +32,8 @@ public class PlanetController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllPlanets() {
-        try {
-            return new ResponseEntity<>(planetService.getAllPlanets(), HttpStatus.OK);
-        } catch (ResourceNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    public List<Planet> getAllPlanets() {
+            return planetService.getAllPlanets();
     }
 
     @GetMapping("{id}")

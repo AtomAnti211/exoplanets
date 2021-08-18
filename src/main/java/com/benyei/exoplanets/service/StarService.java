@@ -1,12 +1,10 @@
 package com.benyei.exoplanets.service;
 
-
 import com.benyei.exoplanets.exception.ConstraintException;
 import com.benyei.exoplanets.exception.NotUniqueException;
 import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Star;
 import com.benyei.exoplanets.repository.StarRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +15,11 @@ import java.util.Optional;
 @Transactional
 public class StarService {
 
-    @Autowired
-    private StarRepository starRepository;
+    private final StarRepository starRepository;
+
+    public StarService(StarRepository starRepository) {
+        this.starRepository = starRepository;
+    }
 
     public Star saveStar(Star star) {
         Optional<Star> existingStar = starRepository.findStarByName(star.getName());
@@ -29,9 +30,6 @@ public class StarService {
     }
 
     public List<Star> getAllStars() {
-        if (starRepository.findAll().isEmpty()) {
-            throw new ResourceNotFoundException("Not Found!");
-        }
         return starRepository.findAll();
     }
 
