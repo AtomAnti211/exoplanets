@@ -78,4 +78,8 @@ public class PlanetService {
                 new ResourceNotFoundException("Planet not found with id: " + id));
         planetRepository.deleteById(id);
     }
+
+    public List<Planet> findAllByIsInTheHabitableZoneTrue() {
+        return planetRepository.findAllByIsInTheHabitableZoneTrue();
+    }
 }

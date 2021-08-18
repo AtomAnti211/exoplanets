@@ -66,4 +66,9 @@ public class PlanetController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("habitablezone")
+    public List<Planet> findAllByIsInTheHabitableZoneTrue() {
+        return planetService.findAllByIsInTheHabitableZoneTrue();
+    }
 }
