@@ -11,6 +11,7 @@ import org.springframework.http.*;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -149,4 +150,40 @@ public class StarIntegrationTests {
         assertEquals(testStar.getId(), result.getId());
     }
 
+    @Test
+    public void updateStar_withOnePostedStar_returnsUpdatedStar() {
+        Star testStar = new Star(null, "Hope", 4500, 10.03, 1.01, 1.02);
+        testStar = testRestTemplate.postForObject(baseUrl, testStar, Star.class);
+
+        testStar.setName("Updated name");
+        testRestTemplate.put(baseUrl + "/" + testStar.getId(), testStar, Star.class);
+        Star updatedStar = testRestTemplate.getForObject(baseUrl + "/" + testStar.getId(), Star.class);
+
+        assertEquals("Updated name", updatedStar.getName());
+    }
+
+    @Test
+    public void deleteStarById_withSomePostedStars_getAllShouldReturnRemainingStars() {
+        Star testStar1 = new Star(null, "Hope1", 4500, 10.03, 1.01, 1.02);
+        Star testStar2 = new Star(null, "Hope2", 4500, 10.03, 1.01, 1.02);
+        Star testStar3 = new Star(null, "Hope3", 4500, 10.03, 1.01, 1.02);
+        List<Star> testStars = new ArrayList<>();
+        testStars.add(testStar1);
+        testStars.add(testStar2);
+        testStars.add(testStar3);
+
+        testStars.forEach(testStar ->
+                testStar.setId(testRestTemplate.postForObject(baseUrl, testStar, Star.class).getId())
+        );
+
+        testRestTemplate.delete(baseUrl + "/" + testStar2.getId());
+        testStars.remove(testStar2);
+
+        List<Star> remainingStars = List.of(testRestTemplate.getForObject(baseUrl, Star[].class));
+
+        assertEquals(testStars.size(), remainingStars.size());
+        for (int i = 0; i < testStars.size(); i++) {
+            assertEquals(testStars.get(i).getName(), remainingStars.get(i).getName());
+        }
+    }
 }
