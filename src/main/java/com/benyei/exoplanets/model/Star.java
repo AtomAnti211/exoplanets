@@ -39,6 +39,15 @@ public class Star {
     public Star() {
     }
 
+    public Star(Long id, String name, Integer temperature, Double distanceInLightYears, Double radiusSun, Double massSun) {
+        this.id = id;
+        this.name = name;
+        this.temperature = temperature;
+        this.distanceInLightYears = distanceInLightYears;
+        this.radiusSun = radiusSun;
+        this.massSun = massSun;
+    }
+
     public Long getId() {
         return id;
     }
