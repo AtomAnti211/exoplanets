@@ -21,6 +21,15 @@ public class Moon {
     @ManyToOne
     private Planet planet;
 
+    public Moon() {
+    }
+
+    public Moon(Long id, String name, Boolean status, Planet planet) {
+        this.id = id;
+        this.name = name;
+        this.status = status;
+        this.planet = planet;
+    }
 
     public Long getId() {
         return id;

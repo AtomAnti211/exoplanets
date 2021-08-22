@@ -165,8 +165,8 @@ public class StarIntegrationTests {
     @Test
     public void deleteStarById_withSomePostedStars_getAllShouldReturnRemainingStars() {
         Star testStar1 = new Star(null, "Hope1", 4500, 10.03, 1.01, 1.02);
-        Star testStar2 = new Star(null, "Hope2", 4500, 10.03, 1.01, 1.02);
-        Star testStar3 = new Star(null, "Hope3", 4500, 10.03, 1.01, 1.02);
+        Star testStar2 = new Star(null, "Hope2", 5500, 410.03, 5.01, 8D);
+        Star testStar3 = new Star(null, "Hope3", 6500, 103.03, 0.18, 0.16);
         List<Star> testStars = new ArrayList<>();
         testStars.add(testStar1);
         testStars.add(testStar2);

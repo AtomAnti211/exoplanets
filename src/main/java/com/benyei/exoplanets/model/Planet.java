@@ -45,6 +45,16 @@ public class Planet {
     public Planet() {
     }
 
+    public Planet(Long id, String name, Integer yearOfDiscovery, Detection detection, Boolean statusIsConfirmed, Boolean isInTheHabitableZone, Star star) {
+        this.id = id;
+        this.name = name;
+        this.yearOfDiscovery = yearOfDiscovery;
+        this.detection = detection;
+        this.statusIsConfirmed = statusIsConfirmed;
+        this.isInTheHabitableZone = isInTheHabitableZone;
+        this.star = star;
+    }
+
     public Long getId() {
         return id;
     }
