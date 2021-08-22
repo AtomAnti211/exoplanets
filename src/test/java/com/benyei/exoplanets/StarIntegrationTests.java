@@ -151,6 +151,12 @@ public class StarIntegrationTests {
     }
 
     @Test
+    void testFindStarByIdWhenIdNotExists() {
+        final ResponseEntity<Star> response = testRestTemplate.getForEntity(baseUrl + "/987654321", Star.class);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
     public void updateStar_withOnePostedStar_returnsUpdatedStar() {
         Star testStar = new Star(null, "Hope", 4500, 10.03, 1.01, 1.02);
         testStar = testRestTemplate.postForObject(baseUrl, testStar, Star.class);

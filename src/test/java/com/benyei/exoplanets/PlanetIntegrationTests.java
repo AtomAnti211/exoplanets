@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @ActiveProfiles("test")
 public class PlanetIntegrationTests {
+
     @LocalServerPort
     private int port;
 
@@ -105,6 +106,12 @@ public class PlanetIntegrationTests {
         testPlanet = testRestTemplate.postForObject(baseUrl, testPlanet, Planet.class);
         Planet result = testRestTemplate.getForObject(baseUrl + "/" + testPlanet.getId(), Planet.class);
         assertEquals(testPlanet.getId(), result.getId());
+    }
+
+    @Test
+    void testFindPlanetByIdWhenIdNotExists() {
+        final ResponseEntity<Planet> response = testRestTemplate.getForEntity(baseUrl + "/987654321", Planet.class);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test

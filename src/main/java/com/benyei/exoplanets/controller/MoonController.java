@@ -6,6 +6,7 @@ import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Moon;
 import com.benyei.exoplanets.service.MoonService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public class MoonController {
 
     @GetMapping
     public List<Moon> getAllMoons() {
-            return moonService.getAllMoons();
+        return moonService.getAllMoons();
     }
 
     @GetMapping("{id}")
@@ -41,7 +42,10 @@ public class MoonController {
         try {
             return new ResponseEntity<>(moonService.getMoonById(moonId), HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"message\":\"" + e.getMessage() + "\"}");
         }
     }
 

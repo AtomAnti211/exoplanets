@@ -6,6 +6,7 @@ import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Planet;
 import com.benyei.exoplanets.service.PlanetService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public class PlanetController {
 
     @GetMapping
     public List<Planet> getAllPlanets() {
-            return planetService.getAllPlanets();
+        return planetService.getAllPlanets();
     }
 
     @GetMapping("{id}")
@@ -41,7 +42,10 @@ public class PlanetController {
         try {
             return new ResponseEntity<>(planetService.getPlanetById(planetId), HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"message\":\"" + e.getMessage() + "\"}");
         }
     }
 
