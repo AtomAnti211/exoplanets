@@ -38,7 +38,7 @@ public class StarController {
         return starService.getAllStars();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getStarById(@PathVariable("id") Long id) {
         try {
             return new ResponseEntity<>(starService.getStarById(id), HttpStatus.OK);
@@ -50,7 +50,7 @@ public class StarController {
         }
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateStar(@PathVariable("id") Long id,
                                         @Valid @RequestBody Star star) {
         try {
@@ -62,7 +62,7 @@ public class StarController {
         }
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteStar(@PathVariable("id") Long id) {
         try {
             starService.deleteStar(id);
@@ -74,12 +74,12 @@ public class StarController {
         }
     }
 
-    @GetMapping("distance")
+    @GetMapping("/distance")
     public List<Star> findAllByDistanceInLightYearsIsLessThan(@RequestParam Double distance) {
         return starService.findAllByDistanceInLightYearsIsLessThan(distance);
     }
 
-    @GetMapping("search")
+    @GetMapping("/search")
     public List<Star> findAllByNameContaining(@RequestParam Optional<String> name) {
         if (name.isEmpty()) return starService.getAllStars();
         return starService.findAllByNameContaining(name);
