@@ -42,9 +42,10 @@ public class MoonControllerUnitTests {
         }
     }
 
-    private static final Star STAR = new Star(1L, "DeathStar", 4444, 77.7, 1.2, 1.1);
-    private static final Planet PLANET = new Planet(1L, "Coruscant",
-            1999, Detection.DIRECT_IMAGING, true, true, STAR);
+    private static final Star STAR = new Star(1L, "DeathStar", 4444,
+            77.7, 1.2, 1.1);
+    private static final Planet PLANET = new Planet(1L, "Coruscant", 1999,
+            Detection.DIRECT_IMAGING, true, true, STAR);
 
     @Test
     void getAllMoons_shouldReturnAllMoon() throws Exception {

@@ -37,10 +37,15 @@ public class MoonIntegrationTests {
 
     @BeforeEach
     public void setUp() {
-        Star star = new Star(null, "Hope", 4444, 77.7, 1.2, 1.1);
-        Star testStar = testRestTemplate.postForObject("http://localhost:" + port + "/api/stars", star, Star.class);
-        Planet planet = new Planet(null, "Perseverance", 2005, Detection.PRIMARY_TRANSIT, true, true, testStar);
-        testPlanet = testRestTemplate.postForObject("http://localhost:" + port + "/api/planets", planet, Planet.class);
+        Star star = new Star(null, "Hope", 4444,
+                77.7, 1.2, 1.1);
+        Star testStar = testRestTemplate.postForObject(
+                "http://localhost:" + port + "/api/stars", star, Star.class);
+        Planet planet = new Planet(
+                null, "Perseverance", 2005, Detection.PRIMARY_TRANSIT,
+                true, true, testStar);
+        testPlanet = testRestTemplate.postForObject(
+                "http://localhost:" + port + "/api/planets", planet, Planet.class);
         this.baseUrl = "http://localhost:" + port + "/api/moons";
     }
 
@@ -56,7 +61,8 @@ public class MoonIntegrationTests {
     @Test
     public void addNewMoonWithNameShorterThanTwoCharacter_withOnePostedMoon_shouldReturnBadRequest() {
         Moon testMoon = new Moon(null, "S", false, testPlanet);
-        final ResponseEntity<Object> postResponse = testRestTemplate.postForEntity(baseUrl, testMoon, Object.class);
+        final ResponseEntity<Object> postResponse = testRestTemplate.postForEntity(
+                baseUrl, testMoon, Object.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, postResponse.getStatusCode());
     }
@@ -97,7 +103,8 @@ public class MoonIntegrationTests {
 
     @Test
     void testFindStarByIdWhenIdNotExists() {
-        final ResponseEntity<Moon> response = testRestTemplate.getForEntity(baseUrl + "/987654321", Moon.class);
+        final ResponseEntity<Moon> response = testRestTemplate.getForEntity(
+                baseUrl + "/987654321", Moon.class);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 

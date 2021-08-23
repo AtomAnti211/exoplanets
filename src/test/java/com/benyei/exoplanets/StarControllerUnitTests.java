@@ -1,6 +1,7 @@
 package com.benyei.exoplanets;
 
 import com.benyei.exoplanets.controller.StarController;
+import com.benyei.exoplanets.exception.ConstraintException;
 import com.benyei.exoplanets.exception.ResourceNotFoundException;
 import com.benyei.exoplanets.model.Star;
 import com.benyei.exoplanets.service.StarService;
@@ -139,5 +140,16 @@ public class StarControllerUnitTests {
                 .deleteStar(anyLong());
         mockMvc.perform(delete("/api/stars/{id}", anyLong()))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteByIdStarHasPlanet_shouldReturnBadRequestStatus() throws Exception {
+        long id = 1L;
+        doThrow(new ConstraintException("This star (id: "
+                + id + ") has a planet(s), so it cannot be deleted!"))
+                .when(starService)
+                .deleteStar(anyLong());
+        mockMvc.perform(delete("/api/stars/{id}", anyLong()))
+                .andExpect(status().isBadRequest());
     }
 }

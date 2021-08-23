@@ -41,7 +41,8 @@ public class PlanetControllerUnitTests {
         }
     }
 
-    private static final Star STAR = new Star(1L, "DeathStar", 4444, 77.7, 1.2, 1.1);
+    private static final Star STAR = new Star(1L, "DeathStar", 4444,
+            77.7, 1.2, 1.1);
 
     @Test
     void getAllPlanets_shouldReturnAllPlanet() throws Exception {

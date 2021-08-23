@@ -43,7 +43,8 @@ public class PlanetIntegrationTests {
 
     @Test
     public void addNewPlanet_withOnePostedPlanet_shouldReturnSamePlanet() {
-        Planet testPlanet = new Planet(null, "Perseverance", 2005, Detection.PRIMARY_TRANSIT, true, true, testStar);
+        Planet testPlanet = new Planet(null, "Perseverance", 2005,
+                Detection.PRIMARY_TRANSIT, true, true, testStar);
         ResponseEntity<Planet> result;
         result = testRestTemplate.postForEntity(baseUrl, testPlanet, Planet.class);
         assertEquals(201, result.getStatusCodeValue());
@@ -52,7 +53,8 @@ public class PlanetIntegrationTests {
 
     @Test
     public void addNewPlanetWithNameShorterThanTwoCharacter_withOnePostedPlanet_shouldReturnBadRequest() {
-        Planet testPlanet = new Planet(null, "P", 2005, Detection.PRIMARY_TRANSIT, true, true, testStar);
+        Planet testPlanet = new Planet(null, "P", 2005, Detection.PRIMARY_TRANSIT,
+                true, true, testStar);
         final ResponseEntity<Object> postResponse = testRestTemplate.postForEntity(baseUrl, testPlanet, Object.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, postResponse.getStatusCode());
@@ -60,7 +62,8 @@ public class PlanetIntegrationTests {
 
     @Test
     public void addNewPlanetWith1994YearOfDiscovery_withOnePostedPlanet_shouldReturnBadRequest() {
-        Planet testPlanet = new Planet(null, "Perseverance", 1994, Detection.PRIMARY_TRANSIT, true, true, testStar);
+        Planet testPlanet = new Planet(null, "Perseverance", 1994, Detection.PRIMARY_TRANSIT,
+                true, true, testStar);
         final ResponseEntity<Object> postResponse = testRestTemplate.postForEntity(baseUrl, testPlanet, Object.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, postResponse.getStatusCode());
@@ -68,7 +71,8 @@ public class PlanetIntegrationTests {
 
     @Test
     public void addNewPlanetWith2099YearOfDiscovery_withOnePostedPlanet_shouldReturnBadRequest() {
-        Planet testPlanet = new Planet(null, "Perseverance", 2099, Detection.PRIMARY_TRANSIT, true, true, testStar);
+        Planet testPlanet = new Planet(null, "Perseverance", 2099, Detection.PRIMARY_TRANSIT,
+                true, true, testStar);
         final ResponseEntity<Object> postResponse = testRestTemplate.postForEntity(baseUrl, testPlanet, Object.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, postResponse.getStatusCode());
@@ -76,7 +80,8 @@ public class PlanetIntegrationTests {
 
     @Test
     public void addNewPlanetWithId_withOnePostedPlanet_shouldReturnPlanetWithGeneratedId() {
-        Planet testPlanet = new Planet(null, "Perseverance", 2005, Detection.PRIMARY_TRANSIT, true, true, testStar);
+        Planet testPlanet = new Planet(null, "Perseverance", 2005, Detection.PRIMARY_TRANSIT,
+                true, true, testStar);
         final Planet result = testRestTemplate.postForObject(baseUrl, testPlanet, Planet.class);
 
         assertEquals(1L, result.getId());
@@ -84,8 +89,10 @@ public class PlanetIntegrationTests {
 
     @Test
     public void addTwoNewPlanets_withTwoPostedPlanets_shouldSaveTwoPlanets() {
-        Planet testPlanet1 = new Planet(null, "Perseverance", 2005, Detection.PRIMARY_TRANSIT, true, true, testStar);
-        Planet testPlanet2 = new Planet(null, "Perseverance2", 2005, Detection.PRIMARY_TRANSIT, true, true, testStar);
+        Planet testPlanet1 = new Planet(null, "Perseverance", 2005, Detection.PRIMARY_TRANSIT,
+                true, true, testStar);
+        Planet testPlanet2 = new Planet(null, "Perseverance2", 2005, Detection.PRIMARY_TRANSIT,
+                true, true, testStar);
 
         testRestTemplate.postForObject(baseUrl, testPlanet1, Planet.class);
         testRestTemplate.postForObject(baseUrl, testPlanet2, Planet.class);
@@ -102,7 +109,8 @@ public class PlanetIntegrationTests {
 
     @Test
     public void getPlanetById_withOnePostedPlanet_returnsPlanetWithSameId() {
-        Planet testPlanet = new Planet(null, "Perseverance", 2005, Detection.PRIMARY_TRANSIT, true, true, testStar);
+        Planet testPlanet = new Planet(null, "Perseverance", 2005, Detection.PRIMARY_TRANSIT,
+                true, true, testStar);
         testPlanet = testRestTemplate.postForObject(baseUrl, testPlanet, Planet.class);
         Planet result = testRestTemplate.getForObject(baseUrl + "/" + testPlanet.getId(), Planet.class);
         assertEquals(testPlanet.getId(), result.getId());
@@ -116,7 +124,8 @@ public class PlanetIntegrationTests {
 
     @Test
     public void updatePlanet_withOnePostedPlanet_returnsUpdatedPlanet() {
-        Planet testPlanet = new Planet(null, "Perseverance", 2005, Detection.PRIMARY_TRANSIT, true, true, testStar);
+        Planet testPlanet = new Planet(null, "Perseverance", 2005, Detection.PRIMARY_TRANSIT,
+                true, true, testStar);
         testPlanet = testRestTemplate.postForObject(baseUrl, testPlanet, Planet.class);
 
         testPlanet.setName("Updated name");
@@ -128,9 +137,12 @@ public class PlanetIntegrationTests {
 
     @Test
     public void deletePlanetById_withSomePostedPlanets_getAllShouldReturnRemainingPlanets() {
-        Planet testPlanet1 = new Planet(null, "Perseverance1", 2005, Detection.PRIMARY_TRANSIT, true, true, testStar);
-        Planet testPlanet2 = new Planet(null, "Perseverance2", 2005, Detection.PRIMARY_TRANSIT, true, true, testStar);
-        Planet testPlanet3 = new Planet(null, "Perseverance3", 2005, Detection.PRIMARY_TRANSIT, true, true, testStar);
+        Planet testPlanet1 = new Planet(null, "Perseverance1", 2005, Detection.PRIMARY_TRANSIT,
+                true, true, testStar);
+        Planet testPlanet2 = new Planet(null, "Perseverance2", 2005, Detection.PRIMARY_TRANSIT,
+                true, true, testStar);
+        Planet testPlanet3 = new Planet(null, "Perseverance3", 2005, Detection.PRIMARY_TRANSIT,
+                true, true, testStar);
         List<Planet> testPlanets = new ArrayList<>();
         testPlanets.add(testPlanet1);
         testPlanets.add(testPlanet2);
