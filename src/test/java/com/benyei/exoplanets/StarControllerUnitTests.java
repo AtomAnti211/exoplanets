@@ -32,7 +32,7 @@ public class StarControllerUnitTests {
     @MockBean
     private StarService starService;
 
-    public static String asJsonString(final Object obj) {
+    private static String asJsonString(Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
         } catch (Exception e) {
