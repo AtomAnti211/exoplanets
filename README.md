@@ -1,28 +1,25 @@
-Exoplanets
+# Exoplanets
 
-Tervezett működés a triviális validáláson kívül:
+It's a Spring Boot (JPA Hibernate) MVC application with 3 entities (star, planet, moon), 
+h2 database, CRUD (and some extra) endpoints, some integration and unit test cases.
 
-Star: 
+## Project:
 
-POST: Nem lehet 2 egyforma nevű csillag. Az id (= null esetén is) generálódik.
-PUT:  Csak létező id-val lehet csillagot update-elni.
-      Egy csillagot nem lehet úgy update-elni, hogy az új név egy
-      másik id-hoz tartozó csillag neve.
-      Ha az id és a név nem változik csak egyéb adat, akkor azok helyesen felülíródnak.
-DELETE: Ha a csillagnak van bolygója nem törölhető (miután töröltük az összes bolygót természetesen törölhető lesz a csillag is).
-
-
-Planet:
- 
-POST, PUT: Ugyanaz mint Star esetén.
+Humanity has currently found about 5000 exoplanets using various detection methods.
+This database can be used for the theory of planet formation around stars, 
+and other statistical data can be derived.
+The James Webb telescope will be launched soon 
+and is expected to provide a wealth of new data.
 
 
-POST, PUT: +1: csak létező Star id-t lehet neki megadni.
-DELETE: akkor is törölhető, ha van holdja (az exoholdak detektálása még gyerekcipőben jár),
-ilyenkor törlődik az összes holdjával együtt.
+## Running exoplanets locally
 
+### With Maven command line
+```
+git clone https://github.com/AtomAnti211/exoplanets.git
+cd exoplanets
+mvn spring-boot:run
+```
 
-Moon:
-
-POST, PUT: ugyanaz mint a Planet.
-DELETE: Minden hold törölhető.
+You can then access exoplanets here:
+[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
